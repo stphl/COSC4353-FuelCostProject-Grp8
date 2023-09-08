@@ -56,7 +56,7 @@ Build a software application that will predict the rate of the fuel based on the
 ## ⚝ Technologies
 - Frontend: [Javascript](https://www.javascript.com/)
 - Backend: [Node.js](https://nodejs.org/en)
-- Database: [MongoDb](https://www.mongodb.com/)
+- Database: [SQLite](https://www.sqlite.org/index.html)
 
 ## ⚝ Installation
   - Clone this repository: `git clone https://github.com/stphl/COSC4353-FuelCostProject-Grp8.git`

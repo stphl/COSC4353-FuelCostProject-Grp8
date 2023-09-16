@@ -56,7 +56,7 @@ button:hover {
 }
 
 .checks{
-    display:none;
+    color: red;
 }
 @media screen and (min-width: 500px) {
 .MainContainer{
@@ -88,7 +88,41 @@ padding-top: 100px;
 }
 </style>
 <script>
-    
+function validatePassword(){
+let pwd = document.getElementById("psw");
+let pwd2 = document.getElementById("psw2");
+let check2 = document.getElementById("checks2");
+let check3 = document.getElementById("checks3");
+let check4 = document.getElementById("checks4");
+
+if(pwd.value.length >= 8)
+check4.style = "color : green;";
+else
+check4.style = "color : red;";
+
+if((pwd.value.indexOf("!") != -1) || (pwd.value.indexOf(".") != -1) || (pwd.value.indexOf(",") != -1) || (pwd.value.indexOf("^") != -1) || (pwd.value.indexOf("$") != -1) || (pwd.value.indexOf("#") != -1) || (pwd.value.indexOf("@") != -1))
+check2.style = "color : green;";
+else
+check2.style = "color : red;";
+
+const lowerC = /[a-z]/;
+const upperC = /[A-Z]/;
+if((pwd.value.match(lowerC) != null) && (pwd.value.match(upperC) != null))
+check3.style = "color : green;";
+else
+check3.style = "color : red;";
+checkmatch();
+}
+function checkmatch(){
+let pwd = document.getElementById("psw");
+let pwd2 = document.getElementById("psw2");
+let check1 = document.getElementById("checks1");
+
+if (pwd.value === pwd2.value)
+check1.style = "color : green;";
+else
+check1.style = "color : red;";
+}
 </script>
 </head>
 <body>
@@ -98,9 +132,9 @@ padding-top: 100px;
 <form action="" method="post">
 
   <div class="container">
-    <input type="text" placeholder="Enter Username or Email" id="uname" onkeydown="CheckPwd">
-    <input type="password" placeholder="Enter Password" id="psw">  
-    <input type="password" placeholder="Confirm Password" id="psw2"> 
+    <input type="text" placeholder="Enter Username or Email" id="uname" value = "" required>
+    <input type="password" placeholder="Enter Password" id="psw" value = ""  onkeyup = "validatePassword()" required>  
+    <input type="password" placeholder="Confirm Password" id="psw2" value = "" onkeyup = "checkmatch()" required> 
     <button type="submit">Sign Up</button>
   </div>
 </form>
@@ -108,7 +142,7 @@ padding-top: 100px;
 <div class="MainContainer" style = "padding-top: 0px;">
     <p class = "checks" id = "checks1"> - Both passwords should Match</p>
     <p class = "checks" id = "checks4"> - Password must be atleast 8 Characters in length</p>
-    <p class = "checks" id = "checks2"> - Password Should contain at least one of the following symbols: ! @ # $ % ^ , . </p>
+    <p class = "checks" id = "checks2"> - Password Should contain at least one of the following symbols: ! @ # $ ^ , . </p>
     <p class = "checks" id = "checks3"> - Password should have atleast 1 lower and 1 Upper case character</p>
 </div>
 </body>

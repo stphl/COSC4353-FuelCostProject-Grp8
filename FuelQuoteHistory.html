@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" type = "text/css" rel="stylesheet">
+    <title>Fuel Quote History</title>
+</head>
+<body>
+	<div class="top-nav">
+		<ul class="menu">
+			<li><a href=""><strong>Calculate Fuel Quote</strong></a></li>
+			<li><a href=""><strong>Fuel Quote History</strong></a></li>
+			<li><a href=""><strong>Profile</strong></a></li>
+		</ul>
+	</div>
+
+	<div class="center-div"> 
+		<div class="center-text"> 
+		<h1>Fuel Quote History</h1>
+		<br>
+			<table id = "fuel-quotes-table">
+				<tr>
+					<th>Requested (DateTime)</th>
+					<th>Gallons Requested</th>
+					<th>Delivery Address</th>
+					<th>Delivery Date (DateTime)</th>
+					<th>Suggested Fuel Quote</th>
+					<th>Total Due</th>
+				</tr>
+				
+				<!-- 
+				Here we will use some nodejs view manager to populate the table.
+				For ejs it would look something like this.
+				
+				<% for (const entry of table){ %>
+				<tr>
+					<td><%= entry.requested_datetime %></td>
+					<td><%= entry.requested_gallons %></td>
+					<td><%= entry.delivery_address %></td>
+					<td><%= entry.delivery_date %></td>
+					<td><%= entry.fuel_quote %></td>
+					<td><%= entry.total_due %></td>
+				</tr>
+				
+				<% } %>
+				-->
+	
+			</table>
+		</div>
+	</div>
+
+
+</body>
+</html>

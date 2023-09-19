@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<h2 class = "headingText">Fuel Corp Fuel Quote</h2>
+<link rel="stylesheet" href="css/style.css">
+
+
+<style>
+    body 
+    {
+        font-family: Arial, Helvetica, sans-serif; 
+        background-color: #f1f1f1;
+    }
+    
+    form 
+    {
+        border: 3px solid Gray;
+    }
+    
+    input[type=text], input[type=password], input[type=date], input[type=numeric]
+    {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    
+    .headingText
+    {
+        padding-top: 10px;
+        text-align: center;
+    }
+    
+    button {
+      background-color: #2196F3;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    button:hover {
+      opacity: 0.8;
+    }
+    
+    .SignUpBtn {
+      width: auto;
+      padding: 10px 18px;
+      background-color: #4CAF50;
+    }
+    
+    .container {
+      padding: 16px;
+      background-color: white;
+    }
+    
+    .checks{
+        color: red;
+    }
+    @media screen and (min-width: 500px) {
+    .MainContainer{
+      padding-top: 100px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+    }
+    @media screen and (min-width: 700px) {
+    .MainContainer{
+    padding-top: 100px;
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+    }
+    @media screen and (min-width: 1000px) {
+    .MainContainer{
+        padding-top: 100px;
+      padding-left: 200px;
+      padding-right: 200px;
+    }
+    }
+    @media screen and (min-width: 1500px) {
+    .MainContainer{
+        padding-top: 100px;
+      padding-left: 300px;
+      padding-right: 300px;
+    }
+    }
+    </style>
+
+
+    <script>
+    function calculate(){
+        const quoteForm = document.forms[0];
+        if(quoteForm.elements["gals"].value ==""){
+            window.alert("Please enter Gallons Requested")
+            return 0;
+        }
+
+        suggestedPrice = 1.5 + .195; //temp dummy variable
+        quoteForm.elements["pricepergal"].value=suggestedPrice;
+        quoteForm.elements["totalprice"].value=suggestedPrice * quoteForm.elements["gals"].value;
+        return 0; //dummy
+    }
+    </script>
+
+
+
+    </head>
+<body>
+<div class = "MainContainer">
+<form action="" method="post",id="quote form">
+  <div class="container">
+    Address
+    <input type="text" id="address" placeholder="address" value="TODO: Address: Javascript and cookies needed" readonly><br><br>
+    Gallons Requested
+    <input type="numeric" placeholder="Enter Gallons requested" id="gals" value = "" onkeyup = "" required> <br><br>
+    Delivery date: <input type="date" id="date" value = "" required><br><br>
+    Price Per Gallon (dummy variables): <input type="text" id="pricepergal" placeholder="suggestedPrice: Javascript and cookies needed" value="" readonly><br><br> 
+    Total Price (dummy variables):<input type="text" id="totalprice" placeholder="Total Amount Due: Javascript and cookies needed" value="" readonly><br><br> 
+
+
+    <button type="button" onclick="calculate()">Get Quote</button>
+    <button type="submit" onsubmit="">Submit Form (not implemented yet)</button>
+
+  </div>
+</form>
+
+<div class="container" id="quotes"></div>
+
+
+</body>
+</html>

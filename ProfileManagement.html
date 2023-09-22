@@ -1,22 +1,19 @@
-<!-- Front end must include following components:
-- Client Profile Management (After client registers they should login first to complete the profile). Following fields will be on Profile page / form:
-	- Full Name (50 characters, required)
-	- Address 1 (100 characters, required)
-	- Address 2 (100 characters, optional)
-	- City (100 characters, required)
-	- State (Drop Down, selection required) DB will store 2 character state code
-	- Zipcode (9 characters, at least 5 character code required)
-
-- You should have validations in place for required fields, field types, and field lengths.  -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link href="stylesheet.css" type="text/css" rel="stylesheet">
+      <link href="css/style.css" type="text/css" rel="stylesheet">
       <title>Profile Management</title>
   </head>
   <body>
+    <div class="top-nav">
+      <ul class="menu">
+        <li><a href=""><strong>Calculate Fuel Quote</strong></a></li>
+        <li><a href=""><strong>Fuel Quote History</strong></a></li>
+        <li><a href=""><strong>Profile</strong></a></li>
+      </ul>
+    </div>
     <h1 class="headingText">Profile Management</h1>
     <div class="MainContainer">
       <form action="" method="post">

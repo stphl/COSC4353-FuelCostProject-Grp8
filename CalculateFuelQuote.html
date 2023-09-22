@@ -1,44 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="css/style.css" type="text/css" rel="stylesheet">
-  <h1 class = "headingText">Fuel Corp Fuel Quote</h1>
   
-    <script>
-    function calculate(){
-        const quoteForm = document.forms[0];
-        if(quoteForm.elements["gals"].value ==""){
-            window.alert("Please enter Gallons Requested")
-            return 0;
-        }
 
-        suggestedPrice = 1.5 + .195; //temp dummy variable
-        quoteForm.elements["pricepergal"].value=suggestedPrice;
-        quoteForm.elements["totalprice"].value=suggestedPrice * quoteForm.elements["gals"].value;
-        return 0; //dummy
+  <script>
+    function calculate() {
+      const quoteForm = document.forms[0];
+      if (quoteForm.elements["gals"].value == "") {
+        window.alert("Please enter Gallons Requested")
+        return 0;
+      }
+
+      suggestedPrice = 1.5 + .195; //temp dummy variable
+      quoteForm.elements["pricepergal"].value = suggestedPrice;
+      quoteForm.elements["totalprice"].value = suggestedPrice * quoteForm.elements["gals"].value;
+      return 0; //dummy
     }
-    </script>
-    </head>
-  <body>
-  <div class = "MainContainer">
-  <form action="" method="post",id="quote form">
-    <div class="container">
-      Address
-      <input type="text" id="address" placeholder="address" value="TODO: Address: Javascript and cookies needed" readonly><br><br>
-      Gallons Requested
-      <input type="numeric" placeholder="Enter Gallons requested" id="gals" value = "" onkeyup = "" required> <br><br>
-      Delivery date: <input type="date" id="date" value = "" required><br><br>
-      Price Per Gallon (dummy variables): <input type="text" id="pricepergal" placeholder="suggestedPrice: Javascript and cookies needed" value="" readonly><br><br> 
-      Total Price (dummy variables):<input type="text" id="totalprice" placeholder="Total Amount Due: Javascript and cookies needed" value="" readonly><br><br> 
+  </script>
+</head>
+
+<body>
+  <div class="top-nav">
+    <ul class="menu">
+      <li><a href=""><strong>Calculate Fuel Quote</strong></a></li>
+      <li><a href=""><strong>Fuel Quote History</strong></a></li>
+      <li><a href=""><strong>Profile</strong></a></li>
+    </ul>
+  </div>
+  <h1 class="headingText">Fuel Corp Fuel Quote</h1>
+  <div class="MainContainer">
+    <form action="" method="post" ,id="quote form">
+      <div class="container">
+        <label for="address">Address:</label>
+        <input type="text" id="address" placeholder="address" value="TODO: Address: Javascript and cookies needed"
+          readonly>
+
+        <label for="gals">Gallons Requested:</label>
+        <input type="numeric" placeholder="Enter Gallons requested" id="gals" value="" onkeyup="" required>
+
+        <label for="date">Delivery date:</label>
+        <input type="date" id="date" value="" required>
 
 
-      <button type="button" onclick="calculate()">Get Quote</button>
-      <button type="submit" onsubmit="">Submit Form (not implemented yet)</button>
+        <label for="pricepergal">Price Per Gallon (dummy variables):</label>
+        <input type="text" id="pricepergal" placeholder="suggestedPrice: Javascript and cookies needed" value=""
+          readonly>
 
-    </div>
-  </form>
+        <label for="totalprice">Total Price (dummy variables):</label>
+        <input type="text" id="totalprice" placeholder="Total Amount Due: Javascript and cookies needed" value=""
+          readonly>
 
-  <div class="container" id="quotes"></div>
-  </body>
+        <button type="button" onclick="calculate()">Get Quote</button>
+        <button type="submit" onsubmit="">Submit Form (not implemented yet)</button>
+
+      </div>
+    </form>
+
+    <!-- <div class="container" id="quotes"></div> -->
+</body>
+
 </html>

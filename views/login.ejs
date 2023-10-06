@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<% if (messages.error) { %> 
+    <%= messages.error %>   
+    <%}%>
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+
+	<div class="top-nav">
+		<ul class="menu">
+			<li><a href="/register"><strong>Register(working)</strong></a></li>
+            <li></li>
+		</ul>
+	</div>
+    <h1 class = "headingText">Fuel Corp Login</h1>
+    <div class = "MainContainer">
+      <form action="/login" method="POST">
+        <div class="container">
+          <input type="text" placeholder="Enter Username or Email" id="uname" name="uname" required>
+
+          <input type="password" placeholder="Enter Password" id="password" name="psw"required>
+              
+          <button type="submit">Log in</button>
+          <button type="button" class="SignUpBtn">New User? Sign Up(not working)</button>
+
+
+
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

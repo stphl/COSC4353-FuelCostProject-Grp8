@@ -1,0 +1,166 @@
+body {
+    font-family: Arial, Helvetica, sans-serif; 
+    background-color: #f1f1f1;
+}
+
+form {
+    border: 3px solid Gray;
+    border-radius: 25px;
+}
+
+input[type=text], input[type=password], input[type=date], input[type=numeric], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 12px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.headingText {
+    padding-top: 50px;
+    text-align: center;
+}
+
+button {
+    background-color: #2196F3;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.SignUpBtn {
+    width: auto;
+    padding: 14px 20px;
+    width: 100%;
+    background-color: #4CAF50;
+}
+
+.container {
+    padding: 25px;
+    background-color: white;
+    border-radius: 25px;
+}
+
+th, td {
+    border: 15px solid black;
+    text-align: left;
+}
+
+.checks {
+    color: red;
+}
+
+@media screen and (min-width: 500px) {
+    .MainContainer {
+        padding-top: 100px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .MainContainer {
+        padding-top: 100px;
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .MainContainer {
+        padding-top: 100px;
+        padding-left: 200px;
+        padding-right: 200px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .MainContainer {
+        padding-top: 50px;
+        display: block;
+        width: 40%;
+        margin: auto;
+    }
+}
+
+#mySelect option[value=""][disabled] {
+    color: #999;
+}
+
+.top-nav {	
+    background-color: rgb(46, 46, 46);	
+    overflow: hidden;	
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu > li {
+    overflow: hidden;
+}
+
+.menu > li:last-child {
+    right: 0;
+    position: absolute;
+}
+
+.menu > li a {
+    float: left;
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.menu > li a:hover {
+    background-color: #a7a7a7;
+    color: black;
+}
+
+.column {
+    float: left;
+    width: 25%;
+    padding: 15px;
+}
+
+.container {
+    position: relative;
+}
+
+.center-text {
+	text-align: center;
+}
+
+.center-div {
+	margin: auto;
+	width: 60%;
+}
+
+table {
+    align-content: center;
+    width: 100%;
+    border-spacing:0;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+th { text-align: center; }
+
+td { text-align: left; }

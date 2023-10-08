@@ -58,6 +58,13 @@ th, td {
     color: red;
 }
 
+.alert{
+    padding: 0px;
+    color: red;
+    margin: 0px;
+    text-align: center;
+}
+
 @media screen and (min-width: 500px) {
     .MainContainer {
         padding-top: 100px;

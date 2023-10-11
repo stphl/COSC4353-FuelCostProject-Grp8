@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript" src="css/reqscript.js"></script>
+    <script type="text/javascript" src="scripts/reqscript.js"></script>
   </head>
   <body>
 
@@ -18,6 +18,11 @@
     <div class = "MainContainer">
       <form action="/register" method="POST">
         <div class="container">
+          <p class = "alert">
+            <%   if(typeof error != "undefined" && error) { %>
+            <%=  error  %>
+            <% }    %>
+          </p>
           <input type="text" placeholder="Enter Username" id="uname" name="uname" required>
           <input type="password" placeholder="Enter Password" id="psw" value = "" name="psw" onkeyup = "validatePassword()" required>
           <input type="password" placeholder="Confirm Password" id="psw2" value = "" name="psw2" onkeyup = "checkmatch()" required> 

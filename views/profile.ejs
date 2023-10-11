@@ -16,7 +16,7 @@
     </div>
     <h1 class="headingText">Profile Management</h1>
     <div class="MainContainer">
-      <form action="" method="post">
+      <form action="/profile" method="POST">
         <div class="container">
           <label for="fullname">Full Name:</label>
           <input type="text" id="fullname" name="fullname" value="" maxlength="50" required>
@@ -45,5 +45,7 @@
         </div>
       </form>
     </div>
+    <div id="div-error"><p class = "alert"><%= error_message %></p></div>
+    <div id="div-success"><p class = "success"><%= success_message %></p></div>
   </body>
 </html>

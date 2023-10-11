@@ -53,7 +53,8 @@ class FuelQuote
         this.total_price = BaseFuelCost + (BaseFuelCost * profit_margin)
     }
 
-    checkEquals(address, state, gallons_requested, delivery_date, total_price)
+    // Use for unit testing
+    checkEquals(address, state, gallons_requested, delivery_date, total_price) 
     {
         flag = true
         if (address != this.address)

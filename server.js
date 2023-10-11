@@ -12,6 +12,7 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override') //unused for now, login feature coming next
 const url = require('url') // Require url object to help handling redirects passing parameters
+const FuelQuoteCLass = require('./fuel-quote-class')
 
 //sets up passport, which handles everything related to logins
 const initializePassport = require('./passport-config')
@@ -28,7 +29,8 @@ temp_users.push(
     {
         id: '1696572137519',
         uname: 'testing_user',
-        psw: '$2b$10$wOSuTBXWn93giJEkbsvrfOlYQwn8R3dEPBWws4r7u7I8M0NY7186O' //this is 'test' but hashed
+        psw: '$2b$10$wOSuTBXWn93giJEkbsvrfOlYQwn8R3dEPBWws4r7u7I8M0NY7186O', //this is 'test' but hashed
+        fuel_quotes: []
       })
 
 var temp_users_profile = []
@@ -93,6 +95,24 @@ app.post('/register',checkNotAuthenticated,async (req,res)=>{
 app.get('/quote',checkAuthenticated,(req, res) =>{
     res.render('quote.ejs')
 })
+
+app.post('/quote',checkAuthenticated,(req, res) =>{
+    let address = req.body.address + ", " + req.body.city + ", " + req.body.state
+    let state = req.body.state
+    let delivery_date = req.body.date
+    let gallons_requested = req.body.gals
+    let total_price = 0
+    console.log(address)
+    console.log(state)
+    console.log(delivery_date)
+    console.log(gallons_requested)
+    res.render('quote.ejs', {address: address,
+                             state: state,
+                             delivery_date: delivery_date, 
+                             gallons_requested: gallons_requested, 
+                             total_price: total_price})
+})
+
 
 app.get('/history',checkAuthenticated,(req, res) =>{
     res.render('history.ejs')

@@ -53,6 +53,42 @@ class FuelQuote
         this.total_price = BaseFuelCost + (BaseFuelCost * profit_margin)
     }
 
+    // Use for unit testing
+    checkEquals(address, state, gallons_requested, delivery_date, total_price) 
+    {
+        flag = true
+        if (address != this.address)
+        {
+            console.log("address mismatch");
+            flag = false
+        }
+        if (state != this.state)
+        {
+            console.log("State mismatch");
+            flag = false
+        }
+        if (gallons_requested != this.gallons_requested)
+        {
+            console.log("Gallons requested mismatch");
+            flag = false
+        }
+        if (delivery_date != this.delivery_date)
+        {
+            console.log("Delivery date mismatch");
+            flag = false
+        }
+        if (total_price != this.total_price)
+        {
+            console.log("Total price mismatch");
+            flag = false
+        }
+
+        if(flag)
+        {
+            console.log("Is Equals");
+        }
+        
+    }
 
 }
 

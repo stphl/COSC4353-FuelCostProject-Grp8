@@ -16,6 +16,8 @@ const FuelQuoteCLass = require('./fuel-quote-class')
 
 //sets up passport, which handles everything related to logins
 const initializePassport = require('./passport-config')
+const { request } = require('http')
+const { stat } = require('fs')
 initializePassport(
     passport,
     uname => temp_users.find(user => user.uname === uname),
@@ -118,20 +120,26 @@ app.get('/quote',checkAuthenticated,(req, res) =>{
 })
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
-    let address = req.body.address + ", " + req.body.city + ", " + req.body.state
+    let address = req.body.address
+    let city = req.body.city
     let state = req.body.state
-    let delivery_date = req.body.date
-    let gallons_requested = req.body.gals
-    let total_price = 0
-    console.log(address)
-    console.log(state)
-    console.log(delivery_date)
-    console.log(gallons_requested)
-    res.render('quote.ejs', {address: address,
-                             state: state,
-                             delivery_date: delivery_date, 
-                             gallons_requested: gallons_requested, 
-                             total_price: total_price})
+    let delivery_date = req.body.delivery_date
+    let gallons_requested = req.body.gallons_requested
+
+    let fuel_quote = new FuelQuoteCLass.FuelQuote(address,city,state,gallons_requested,delivery_date)
+    fuel_quote.calcTotalPrice(req.user.fuel_quotes)
+    req.user.fuel_quotes.push(fuel_quote)
+
+    let request_data = {address: address,
+                        city: city,
+                        state: state,
+                        delivery_date: delivery_date, 
+                        gallons_requested: gallons_requested,
+                        base_fuel_cost: fuel_quote.BaseFuelCost,
+                        service_fee: fuel_quote.service_fee, 
+                        total_price: fuel_quote.total_price}
+
+    res.render('quote.ejs', {request_data:request_data})
 })
 
 

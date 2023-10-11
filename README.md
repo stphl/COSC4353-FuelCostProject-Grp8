@@ -60,10 +60,8 @@ Build a software application that will predict the rate of the fuel based on the
 
 ## ⚝ Installation
   - Clone this repository: `git clone https://github.com/stphl/COSC4353-FuelCostProject-Grp8.git`
-
-  - Frontend:
     
-  - Backend:
+  - Backend: `npm install` to install dependencies and then `npm run devStart` to run to the server
     
   - Database:
 

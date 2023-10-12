@@ -95,7 +95,7 @@ class FuelQuote
         {
             console.log("Is Equals");
         }
-        
+        return flag
     }
 
 }

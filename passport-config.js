@@ -1,3 +1,5 @@
+//ATTRIBUTION : https://www.youtube.com/watch?v=-RCnNyD0L-s  Code based on following the following tutorial by Web Dev Simplified
+
 const bcrypt = require('bcrypt')
 const LocalStrategy = require('passport-local').Strategy
 

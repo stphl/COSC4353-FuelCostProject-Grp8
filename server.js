@@ -112,7 +112,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         res.render('register.ejs', { error: err })
     }
 
-    console.log(temp_users)
+    //console.log(temp_users)
 })
 
 app.get('/quote', checkAuthenticated, (req, res) => {
@@ -121,8 +121,8 @@ app.get('/quote', checkAuthenticated, (req, res) => {
     res.render('quote.ejs', { request_data: previousInputs })
 })
 
-app.post('/quote', checkAuthenticated, (req, res) => {
-    console.log(req)
+app.post('/quote',checkAuthenticated,(req, res) =>{
+    if(req.user.fuel_quotes == undefined){req.user.fuel_quotes = []}
     let address = req.body.address
     let city = req.body.city
     let state = req.body.state
@@ -246,9 +246,9 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
             }
         }))
     }
-    console.log(req.session.passport.user)
-    console.log(req.body)
-    console.log(temp_users)
+    //console.log(req.session.passport.user)
+    //console.log(req.body)
+    //console.log(temp_users)
 })
 
 app.get('/savedProfile', checkAuthenticated, (req, res) => {

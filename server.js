@@ -41,7 +41,7 @@ var temp_users_profile = []
 app.use(express.static("public"));
 
 //set ups for express and simple session stuff
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:true}))
 app.use(flash())
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -122,6 +122,7 @@ app.get('/quote',checkAuthenticated,(req, res) =>{
 })
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
+    console.log(req)
     let address = req.body.address
     let city = req.body.city
     let state = req.body.state
@@ -257,6 +258,6 @@ function checkAuthenticated(req, res, next) {
   }
   
 
-app.listen(3000)
+//app.listen(3001)
 
-
+module.exports = app

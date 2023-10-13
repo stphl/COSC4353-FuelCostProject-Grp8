@@ -62,7 +62,7 @@ class FuelQuote
     }
 
     // Use for unit testing
-    checkEquals(address, state, gallons_requested, delivery_date, total_price) 
+    /* checkEquals(address, state, gallons_requested, delivery_date, total_price) 
     {
         let flag = true
         if (address != this.address)
@@ -96,7 +96,7 @@ class FuelQuote
             console.log("Is Equals");
         }
         return flag
-    }
+    } */
 
 }
 

@@ -18,7 +18,7 @@ function CheckMinLength(field, length) {
 
 // Check the field is not null or undefined
 function CheckRequired(field) {
-    if (field === null || field === undefined)
+    if (field === null || field === undefined || field == "")
         return false
     else 
         return true

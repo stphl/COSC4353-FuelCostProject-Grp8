@@ -116,7 +116,9 @@ app.post('/register',checkNotAuthenticated,async (req,res)=>{
 })
 
 app.get('/quote',checkAuthenticated,(req, res) =>{
-    res.render('quote.ejs')
+    var previousInputs = req.session.previousInputs || {};
+    req.session.previousInputs = {};
+    res.render('quote.ejs', {request_data:previousInputs})
 })
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
@@ -139,7 +141,8 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
                         service_fee: fuel_quote.service_fee, 
                         total_price: fuel_quote.total_price}
 
-    res.render('quote.ejs', {request_data:request_data})
+    req.session.previousInputs = request_data
+    res.redirect('/quote')
 })
 
 

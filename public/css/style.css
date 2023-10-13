@@ -8,7 +8,7 @@ form {
     border-radius: 25px;
 }
 
-input[type=text], input[type=password], input[type=date], input[type=numeric], select {
+input[type=text], input[type=password], input[type=date], input[type=number], select {
     width: 100%;
     padding: 12px 20px;
     margin: 12px 0;

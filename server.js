@@ -144,7 +144,7 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
 
 
 app.get('/history',checkAuthenticated,(req, res) =>{
-    res.render('history.ejs')
+    res.render('history.ejs', {fuel_quotes: req.user.fuel_quotes})
 })
 
 app.get('/profile',checkAuthenticated,(req, res) =>{

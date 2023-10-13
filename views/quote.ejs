@@ -54,10 +54,9 @@
         <input type="numeric" placeholder="Enter Gallons requested" id="gallons_requested" name="gallons_requested" value="<%- typeof request_data !== 'undefined' ? request_data.gallons_requested : '' %>" onkeyup="" required>
 
         <label for="date">Delivery date:</label>
-        <input type="date" id="delivery_date" name="delivery_date" value="<%- typeof request_data !== 'undefined' ? request_data.delivery_date : '' %>" required>
+        <input type="date" id="delivery_date" name="delivery_date" min="<%= new Date().toISOString().split('T')[0] %>" value="<%- typeof request_data !== 'undefined' ? request_data.delivery_date : '' %>" required>
 
-        <button type="button" onclick="calculate()">Get Quote</button>
-        <button type="submit" onsubmit="">Submit Form</button>
+        <button type="submit" onsubmit="">Get Quote</button>
 
         <h2 id="base-fuel-cost">Base Fuel Cost: <%= typeof request_data !== 'undefined' ? request_data.base_fuel_cost : '' %> </h2>
         <h2 id="service-fee">Service Fee: <%= typeof request_data !== 'undefined' ? request_data.service_fee : '' %> </h2>
@@ -68,7 +67,6 @@
       </div>
     </form>
 
-    <!-- <div class="container" id="quotes"></div> -->
   <script type="text/javascript" src="submitscript.js"></script>
 </body>
 

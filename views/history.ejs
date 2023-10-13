@@ -21,30 +21,30 @@
 		<br>
 			<table id = "fuel-quotes-table">
 				<tr>
-					<th>Requested (DateTime)</th>
+					<th>Requested</th>
 					<th>Gallons Requested</th>
 					<th>Delivery Address</th>
-					<th>Delivery Date (DateTime)</th>
+					<th>Delivery Date</th>
 					<th>Suggested Fuel Quote</th>
+					<th>Service Fee</th>
 					<th>Total Due</th>
 				</tr>
 				
-				<!-- 
-				Here we will use some nodejs view manager to populate the table.
-				For ejs it would look something like this.
-				
-				<% for (const entry of table){ %>
-				<tr>
-					<td><%= entry.requested_datetime %></td>
-					<td><%= entry.requested_gallons %></td>
-					<td><%= entry.delivery_address %></td>
-					<td><%= entry.delivery_date %></td>
-					<td><%= entry.fuel_quote %></td>
-					<td><%= entry.total_due %></td>
-				</tr>
-				
-				<% } %>
-				-->
+				<% if (typeof fuel_quotes !== 'undefined' && fuel_quotes.length > 0) { %>
+					<% for(const entry of fuel_quotes)  { %>
+					<tr>
+						<td><%= entry.requested_date %></td>
+						<td><%= entry.gallons_requested %></td>
+						<td><%= entry.address + ", " + entry.city + ", " + entry.state %></td>
+						<td><%= entry.delivery_date %></td>
+						<td><%= entry.BaseFuelCost %></td>
+						<td><%= entry.service_fee %></td>
+						<td><%= entry.total_price %></td>
+					</tr>
+					<% } %>
+				<% } else { %>
+
+				<% } %>		
 	
 			</table>
 		</div>

@@ -178,3 +178,7 @@ th, td {
 th { text-align: center; }
 
 td { text-align: left; }
+
+span.span-saved-profile {
+    font-weight: bold;
+}

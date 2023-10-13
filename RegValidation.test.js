@@ -44,7 +44,7 @@ describe(
         })
         test('Test 2 for  check requirement', () =>{
             expect(
-                validator.CheckLength("not","equal")
+                validator.CheckMatch("not","equal")
             ).toBeFalsy()
         })
 

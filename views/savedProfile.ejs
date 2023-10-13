@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="css/style.css" type="text/css" rel="stylesheet">
+      <title>Profile Management</title>
+  </head>
+  <body>
+    <div class="top-nav">
+      <ul class="menu">
+        <li><a href="/quote"><strong>Calculate Fuel Quote</strong></a></li>
+        <li><a href="/history"><strong>Fuel Quote History</strong></a></li>
+        <li><a href="/profile"><strong>Profile</strong></a></li>
+      </ul>
+    </div>
+    <h1 class="headingText">My Profile</h1>
+    <div class="MainContainer">
+        <div class="container">
+            <div id="fullname"><p><span class="span-saved-profile">Full Name:</span> <%= user_data["fullname"] %></p></div>
+            <div id="address1"><p><span class="span-saved-profile">Address 1:</span> <%= user_data["address1"] %></p></div>
+            <div id="address2"><p><span class="span-saved-profile">Address 2:</span> <%= user_data["address2"] %></p></div>
+            <div id="city"><p><span class="span-saved-profile">City:</span> <%= user_data["city"] %></p></div>
+            <div id="state"><p><span class="span-saved-profile">State:</span> <%= user_data["state"] %></p></div>
+            <div id="zipcode"><p><span class="span-saved-profile">Zipcode:</span> <%= user_data["zipcode"] %></p></div>
+        </div>
+    </div>
+  </body>
+</html>

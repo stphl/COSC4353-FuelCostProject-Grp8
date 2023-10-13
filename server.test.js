@@ -129,28 +129,29 @@ describe("get quote",()=>{
         server.get('/quote')
         .expect(200)
         .end((err,res)=>{
-            if (err) {console.log("YEAH");return done(err)};
-            //console.log(res)
+            if (err) {console.log(err);return done(err)};
             done();
         })
     })
 })
 
-
-request_data = {address: "123 addr",
-city: "houston",
-state: "TX",
-gallons_requested: 100,
-delivery_date: "12/03/2004", 
-}
+data=
+{
+    address: '123',
+    city: '123',
+    state: 'FL',
+    gallons_requested: '123',
+    delivery_date: '2023-11-03'
+  }
+  
 describe("post quote",()=>{
     test('post quote',(done)=>{
 
         //console.log(user)
-        server.post('/register').type('form')
-        .send(testing_user)
+        server.post('/quote').type('form')
+        .send(data)
         .expect(302)
-        .expect("Location","/")
+        .expect("Location","/quote")
         .end((err,res)=>{
             if (err) return done(err);
             done();
@@ -166,7 +167,7 @@ describe("get history",()=>{
         .expect(200)
         .end((err,res)=>{
             if (err) {console.log(err);return done(err)};
-            console.log(res.text)
+            //console.log(res.text)
             done();
         })
     })

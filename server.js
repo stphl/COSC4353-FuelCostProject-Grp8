@@ -112,7 +112,7 @@ app.post('/register',checkNotAuthenticated,async (req,res)=>{
         res.render('register.ejs', {error: err} )
     }
 
-    console.log(temp_users)
+    //console.log(temp_users)
 })
 
 app.get('/quote',checkAuthenticated,(req, res) =>{
@@ -122,7 +122,7 @@ app.get('/quote',checkAuthenticated,(req, res) =>{
 })
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
-    console.log(req)
+    if(req.user.fuel_quotes == undefined){req.user.fuel_quotes = []}
     let address = req.body.address
     let city = req.body.city
     let state = req.body.state
@@ -233,9 +233,9 @@ app.post('/profile', checkAuthenticated,async (req,res)=>{
             }
         }))
     }
-    console.log(req.session.passport.user)
-    console.log(req.body)
-    console.log(temp_users)
+    //console.log(req.session.passport.user)
+    //console.log(req.body)
+    //console.log(temp_users)
 })
 
 

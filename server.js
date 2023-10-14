@@ -116,10 +116,25 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
 })
 
 app.get('/quote', checkAuthenticated, (req, res) => {
-    var previousInputs = req.session.previousInputs || {};
-    req.session.previousInputs = {};
-    res.render('quote.ejs', { request_data: previousInputs })
+    var user_data = null
+
+    for (let i = 0; i < temp_users.length; i++) {
+        if (temp_users[i].id == req.session.passport.user) {
+            user_data = temp_users[i]
+        }
+    }
+
+    render_data = {
+        user_data: user_data,
+        request_data: req.session.previousInputs
+    }
+
+    res.render('quote.ejs', render_data)
+    // var previousInputs = req.session.previousInputs || {};
+    // req.session.previousInputs = {};
+    // res.render('quote.ejs', { request_data: previousInputs })
 })
+
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
     if(req.user.fuel_quotes == undefined){req.user.fuel_quotes = []}

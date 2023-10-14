@@ -138,9 +138,22 @@ app.get('/quote', checkAuthenticated, (req, res) => {
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
     if(req.user.fuel_quotes == undefined){req.user.fuel_quotes = []}
-    let address = req.body.address
-    let city = req.body.city
-    let state = req.body.state
+    // let address = req.body.address
+    // let city = req.body.city
+    // let state = req.body.state
+    
+    // Retrieve user information
+    var user_data = null
+
+    for (let i = 0; i < temp_users.length; i++) {
+        if (temp_users[i].id == req.session.passport.user) {
+            user_data = temp_users[i]
+        }
+    }
+
+    let address = user_data["address1"] + " " + user_data["address2"]
+    let city = user_data["city"]
+    let state = user_data["state"]
     let delivery_date = req.body.delivery_date
     let gallons_requested = req.body.gallons_requested
 

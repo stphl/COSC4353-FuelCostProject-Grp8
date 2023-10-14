@@ -9,6 +9,50 @@ const server  = supertest.agent(app)
       } 
 
 
+      describe("Non authed gets",()=>{
+        test('get profile',(done)=>{
+            //console.log(user)
+            server.get('/profile')
+            .expect(302)
+            .expect("Location","/login")
+            .end((err,res)=>{
+                if (err) {console.log(err);return done(err)};
+                done();
+            })
+        })
+        test('get saved profile',(done)=>{
+            //console.log(user)
+            server.get('/savedProfile')
+            .expect(302)
+            .expect("Location","/login")
+            .end((err,res)=>{
+                if (err) {console.log(err);return done(err)};
+                done();
+            })
+        })
+        test('get history',(done)=>{
+            //console.log(user)
+            server.get('/history')
+            .expect(302)
+            .expect("Location","/login")
+            .end((err,res)=>{
+                if (err) {console.log(err);return done(err)};
+                done();
+            })
+        })
+        test('get quote',(done)=>{
+            //console.log(user)
+            server.get('/quote')
+            .expect(302)
+            .expect("Location","/login")
+            .end((err,res)=>{
+                if (err) {console.log(err);return done(err)};
+                done();
+            })
+        })
+    })
+
+
 
 testing_user = {uname:"testing_account",psw:"TestingP4SS!",psw2:"TestingP4SS!"}
 duped_name = {uname:"testing_account",psw:"differentA!",psw2:"differentA!"}
@@ -89,6 +133,30 @@ describe("login posts",()=>{
 })
 
 
+test('get register after login',(done)=>{
+    //console.log(user)
+    server.get('/register')
+    .expect(302)
+    .expect("Location","/")
+    .end((err,res)=>{
+        if (err) {console.log(err);return done(err)};
+        done();
+    })
+})
+
+test('get login after login',(done)=>{
+    //console.log(user)
+    server.get('/login')
+    .expect(302)
+    .expect("Location","/")
+    .end((err,res)=>{
+        if (err) {console.log(err);return done(err)};
+        done();
+    })
+})
+
+
+
 
 test_profile = {
     fullname:"John smith",
@@ -98,6 +166,30 @@ test_profile = {
     state:"TX",
     zipcode:"77073"
 }
+long_profile = {
+    fullname:"a VERY VERY VERY VERY VERY VERY VERYVERYVERYVERYVERY long name",
+    address1:"1234 addr",
+    address2:"1234 addr",
+    city:"houston",
+    state:"TX",
+    zipcode:"77073"
+}
+
+describe("name too long profile",()=>{
+    test('too long profile',(done)=>{
+
+        //console.log(user)
+        server.post('/profile').type('form')
+        .send(long_profile)
+        .expect(302)
+        //.expect("Location","/profile")
+        .end((err,res)=>{
+            if (err) return done(err);
+            done();
+        })
+    })
+})
+
 describe("post profile",()=>{
     test('post profile',(done)=>{
 
@@ -125,6 +217,17 @@ describe("get profile",()=>{
     })
 })
 
+describe("get saved profile after login",()=>{
+    test('get saved profile after login',(done)=>{
+        //console.log(user)
+        server.get('/savedProfile')
+        .expect(200)
+        .end((err,res)=>{
+            if (err) {console.log(err);return done(err)};
+            done();
+        })
+    })
+})
 
 
 describe("get quote",()=>{

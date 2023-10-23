@@ -58,7 +58,7 @@
         <div id="state"><p><span class="span-saved-profile">State:</span> <%= user_data["state"] %></p></div>
         <div id="zipcode"><p><span class="span-saved-profile">Zipcode:</span> <%= user_data["zipcode"] %></p></div>
         <label for="gallons_requested"><span class="span-saved-profile">Gallons Requested: </span></label>
-        <input type="number" placeholder= "" id="gallons_requested" name="gallons_requested" min = "1" value="<%- typeof request_data !== 'undefined' ? request_data.gallons_requested : '1' %>" onkeyup="" required>
+        <input type="number" placeholder= "" id="gallons_requested" name="gallons_requested" min = "1" max = "100000000" value="<%- typeof request_data !== 'undefined' ? request_data.gallons_requested : '1' %>" onkeyup="" required>
 
         <label for="date">Delivery date:</label>
         <input type="date" id="delivery_date" name="delivery_date" min="<%= new Date().toISOString().split('T')[0] %>" value="<%- typeof request_data !== 'undefined' ? request_data.delivery_date : '' %>" required>
@@ -69,10 +69,13 @@
         <p id="service-fee"><span class="span-saved-profile">Service Fee: </span><%= typeof request_data !== 'undefined' ? request_data.service_fee : '' %> </h1>
         <p id="fuel-quote"><span class="span-saved-profile">Fuel Quote: </span><%= typeof request_data !== 'undefined' ? request_data.total_price : '' %> </h1>
         
-        
+
       
       </div>
     </form>
+    <div id="div-error">
+      <p class = "alert"><%= error_message %></p>
+    </div>
 
   <script type="text/javascript" src="submitscript.js"></script>
 </body>

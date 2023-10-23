@@ -126,7 +126,8 @@ app.get('/quote', checkAuthenticated, (req, res) => {
 
     render_data = {
         user_data: user_data,
-        request_data: req.session.previousInputs
+        request_data: req.session.previousInputs,
+        error_message: req.session.errorMessage
     }
 
     res.render('quote.ejs', render_data)
@@ -137,6 +138,8 @@ app.get('/quote', checkAuthenticated, (req, res) => {
 
 
 app.post('/quote',checkAuthenticated,(req, res) =>{
+    var error_message = []
+
     if(req.user.fuel_quotes == undefined){req.user.fuel_quotes = []}
     // let address = req.body.address
     // let city = req.body.city
@@ -155,24 +158,52 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
     let city = user_data["city"]
     let state = user_data["state"]
     let delivery_date = req.body.delivery_date
-    let gallons_requested = req.body.gallons_requested
+    let gallons_requested = Number(req.body.gallons_requested)
 
-    let fuel_quote = new FuelQuoteCLass.FuelQuote(address, city, state, gallons_requested, delivery_date)
-    fuel_quote.calcTotalPrice(req.user.fuel_quotes)
-    req.user.fuel_quotes.push(fuel_quote)
+    let validiation_date = new Date(req.body.delivery_date)
+    if (isNaN(validiation_date.getTime()))
+    {
+        error_message.push("Invalid Date")
+    }
 
-    let request_data = {
-        address: address,
-        city: city,
-        state: state,
-        delivery_date: delivery_date,
-        gallons_requested: gallons_requested,
-        base_fuel_cost: fuel_quote.BaseFuelCost,
-        service_fee: fuel_quote.service_fee,
-        total_price: fuel_quote.total_price
+    if(isNaN(gallons_requested) || !Number.isInteger(gallons_requested) || gallons_requested < 1 || gallons_requested > 100000000)
+    {
+        error_message.push("Invalid number of Gallons Requested")
+    }
+
+    let request_data = {}
+    if(error_message.length == 0)
+    {
+        let fuel_quote = new FuelQuoteCLass.FuelQuote(address, city, state, gallons_requested, delivery_date)
+        fuel_quote.calcTotalPrice(req.user.fuel_quotes)
+        req.user.fuel_quotes.push(fuel_quote)
+
+        request_data = {
+            address: address,
+            city: city,
+            state: state,
+            delivery_date: delivery_date,
+            gallons_requested: gallons_requested,
+            base_fuel_cost: fuel_quote.BaseFuelCost,
+            service_fee: fuel_quote.service_fee,
+            total_price: fuel_quote.total_price
+        }
+        error_message = ""
+    }
+    else
+    {
+        request_data = {
+            address: address,
+            city: city,
+            state: state,
+            delivery_date: delivery_date,
+            gallons_requested: gallons_requested,
+        }
+        error_message = error_message.join(", ")
     }
 
     req.session.previousInputs = request_data
+    req.session.errorMessage = error_message
     res.redirect('/quote')
 })
 

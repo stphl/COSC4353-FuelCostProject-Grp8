@@ -13,6 +13,8 @@
     "dotenv": "^16.3.1",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
     "supertest": "^6.3.3"
   },
   "name": "cosc4353-fuelcostproject-grp8",

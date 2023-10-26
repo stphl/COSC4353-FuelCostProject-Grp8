@@ -34,12 +34,16 @@ db.run(statement_client_info);
 statement_fuelquote = `CREATE TABLE FuelQuote
                                 (quote_id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 user_id INTEGER REFERENCES UserCredentials(id),
+                                requested_date TIMESTAMP NOT NULL,
                                 gallons_requested NOT NULL,
-                                address CHAR(200) NOT NULL,
                                 delivery_date DATE NOT NULL,
+                                address CHAR(200) NOT NULL,
                                 city CHAR(100) NOT NULL,
                                 state CHAR(2) NOT NULL,
-                                zipcode INTEGER NOT NULL
+                                zipcode INTEGER NOT NULL,
+                                basefuelcost DECIMAL(10,2) NOT NULL,
+                                servicefee DECIMAL (10,2) NOT NULL,
+                                totalprice DECIMAL (10,2) NOT NULL
                                 );`
 
 

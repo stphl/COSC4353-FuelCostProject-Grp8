@@ -3,20 +3,28 @@ const BaseFuelCostPerGallon = 2
 
 class FuelQuote
 {
+    quote_id
+    user_id
     requested_date
     address
     city
     state
+    zipcode
     gallons_requested
     delivery_date
+    BaseFuelCost
+    service_fee
     total_price
 
-    constructor (address, city, state, gallons_requested, delivery_date)
+    constructor (user_id, address, city, state, zipcode, gallons_requested, delivery_date)
     {
+        this.quote_id = new Date().valueOf();
+        this.user_id = user_id;
         this.requested_date = new Date()
         this.address = address
         this.city = city
         this.state = state
+        this.zipcode = zipcode
         this.gallons_requested = gallons_requested
         this.delivery_date = delivery_date
         this.BaseFuelCost = 0
@@ -58,8 +66,10 @@ class FuelQuote
         }
 
         this.total_price = this.BaseFuelCost + (this.BaseFuelCost * this.service_fee)
-        this.service_fee = parseFloat(this.service_fee*100).toFixed(2)+"%"
+        this.service_fee = parseFloat(this.service_fee.toFixed(2))
     }
+
+
 
     // Use for unit testing
     /* checkEquals(address, state, gallons_requested, delivery_date, total_price) 

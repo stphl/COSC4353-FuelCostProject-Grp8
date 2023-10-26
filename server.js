@@ -13,6 +13,14 @@ const session = require('express-session')
 const methodOverride = require('method-override') //unused for now, login feature coming next
 const url = require('url') // Require url object to help handling redirects passing parameters
 const FuelQuoteCLass = require('./fuel-quote-class')
+const sqlite3 = require("sqlite3").verbose()
+
+const db = new sqlite3.Database("./database.db", sqlite3.OPEN_READWRITE, (err)=>{
+    if (err) return console.error(err.message);
+})
+
+//turns on foreign key support for sqlite3
+db.run("PRAGMA foreign_keys = ON;")
 
 //sets up passport, which handles everything related to logins
 const initializePassport = require('./passport-config')
@@ -157,6 +165,7 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
     let address = user_data["address1"] + " " + user_data["address2"]
     let city = user_data["city"]
     let state = user_data["state"]
+    let zipcode = user_data["zipcode"]
     let delivery_date = req.body.delivery_date
     let gallons_requested = Number(req.body.gallons_requested)
 
@@ -174,10 +183,10 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
     let request_data = {}
     if(error_message.length == 0)
     {
-        let fuel_quote = new FuelQuoteCLass.FuelQuote(address, city, state, gallons_requested, delivery_date)
+        let fuel_quote = new FuelQuoteCLass.FuelQuote(req.user.id, address, city, state, zipcode, gallons_requested, delivery_date)
+        
         fuel_quote.calcTotalPrice(req.user.fuel_quotes)
         req.user.fuel_quotes.push(fuel_quote)
-
         request_data = {
             address: address,
             city: city,
@@ -188,6 +197,13 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
             service_fee: fuel_quote.service_fee,
             total_price: fuel_quote.total_price
         }
+        const sql = `INSERT INTO FuelQuote (quote_id, user_id, requested_date, gallons_requested, delivery_date, address, city, state, zipcode, basefuelcost, servicefee, totalprice)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+
+        db.run(sql, [fuel_quote.quote_id, fuel_quote.user_id, fuel_quote.requested_date.toISOString(), fuel_quote.gallons_requested, fuel_quote.delivery_date, fuel_quote.address, fuel_quote.city, fuel_quote.state, fuel_quote.zipcode,
+             fuel_quote.BaseFuelCost, fuel_quote.service_fee, fuel_quote.total_price])
+        
+
         error_message = ""
     }
     else
@@ -202,6 +218,8 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
         error_message = error_message.join(", ")
     }
 
+
+    
     req.session.previousInputs = request_data
     req.session.errorMessage = error_message
     res.redirect('/quote')

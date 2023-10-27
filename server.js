@@ -81,7 +81,6 @@ app.get('/login', checkNotAuthenticated, async (req, res) => {
             }
         })
     })
-    console.log(temp_users)
     res.render('login.ejs')
 })
 

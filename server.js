@@ -34,16 +34,16 @@ initializePassport(
 
 //hardcoded variables, waiting for DBMS in assignment 4.
 const temp_users = []
-temp_users.push(
+/*temp_users.push(
     //TODO HARDCODE PROFILE and create way to put profile info in, maybe not through this list but a related one?
     {
         id: '1696572137519',
         uname: 'testing_user',
         psw: '$2b$10$wOSuTBXWn93giJEkbsvrfOlYQwn8R3dEPBWws4r7u7I8M0NY7186O', //this is 'test' but hashed
         fuel_quotes: []
-    })
+    })*/
 
-var temp_users_profile = []
+//var temp_users_profile = []
 
 //allows us to use assets, namely CSS
 app.use(express.static("public"));
@@ -67,7 +67,21 @@ app.get('/', checkAuthenticated, (req, res) => {
     res.redirect('/profile')
 })
 
-app.get('/login', checkNotAuthenticated, (req, res) => {
+app.get('/login', checkNotAuthenticated, async (req, res) => {
+    sql = `SELECT * FROM UserCredentials`
+    await db.all(sql,[],(err,rows)=>{
+        if (err) return console.log(err)
+        rows.forEach(row => {
+            if(!(temp_users.uname == row.username))
+            {
+                temp_users.push({
+                    id:String(row.id),
+                    uname:row.username,
+                    psw:row.password})
+            }
+        })
+    })
+    console.log(temp_users)
     res.render('login.ejs')
 })
 

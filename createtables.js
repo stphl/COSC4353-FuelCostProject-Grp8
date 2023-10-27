@@ -54,11 +54,7 @@ statement_fuelquote = `CREATE TABLE FuelQuote
 
 //db.run(statement_fuelquote);
 
-
-const hashedPw = '1qaz2wsx'
-const user_id = Date.now().toString()
-const uname = 'blaze'
 User_insert = 'INSERT INTO UserCredentials(id,username,password) VALUES (?,?,?)';
-db.run(User_insert,[1696572137519,'testing_user','wOSuTBXWn93giJEkbsvrfOlYQwn8R3dEPBWws4r7u7I8M0NY7186O'],(err) => {
+/*db.run(User_insert,[1696572137519,'testing_user','wOSuTBXWn93giJEkbsvrfOlYQwn8R3dEPBWws4r7u7I8M0NY7186O'],(err) => {
     if(err) return console.error(err.message);
-});
+});*/

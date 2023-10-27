@@ -15,7 +15,7 @@ statement_usercreds = `CREATE TABLE UserCredentials
                             (id INTEGER PRIMARY KEY,
                             username Char(15) NOT NULL UNIQUE,
                             password  CHAR(60) NOT NULL)`;
-db.run(statement_usercreds);
+//db.run(statement_usercreds);
 
 statement_states = `CREATE TABLE states
                         (
@@ -33,7 +33,7 @@ statement_client_info = `CREATE TABLE ClientInformation (
                             state_id char(100) REFERENCES states(state),
                             zipcode INTEGER NOT NULL
                             )`;
-db.run(statement_client_info);
+//db.run(statement_client_info);
 
 statement_fuelquote = `CREATE TABLE FuelQuote
                                 (quote_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,3 +52,8 @@ statement_fuelquote = `CREATE TABLE FuelQuote
 
 
 //db.run(statement_fuelquote);
+
+User_insert = 'INSERT INTO UserCredentials(id,username,password) VALUES (?,?,?)';
+/*db.run(User_insert,[1696572137519,'testing_user','wOSuTBXWn93giJEkbsvrfOlYQwn8R3dEPBWws4r7u7I8M0NY7186O'],(err) => {
+    if(err) return console.error(err.message);
+});*/

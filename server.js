@@ -86,17 +86,17 @@ const RegValidation = require('./RegValidation')
 
 //handles the register form with the non DBMS system.
 app.post('/register', checkNotAuthenticated, async (req, res) => {
-
+    
     try {
         //quick and dirty user generation for now.
         let checkLength = RegValidation.CheckLength(req.body.psw)
         let checkSymb = RegValidation.CheckSymb(req.body.psw)
         let checkLowUp = RegValidation.CheckLowUp(req.body.psw)
         let checkmatch = RegValidation.CheckMatch(req.body.psw, req.body.psw2)
-
-        for (i = 0; i < temp_users.length; i++)
-            if (temp_users[i].uname === req.body.uname)
-                throw "Username already exists"
+        
+        /*for (i = 0; i < temp_users.length; i++)
+            if (temp_users[i].username === req.body.uname)
+                throw "Username already exists"*/
         if (!checkLength)
             throw "Password length too short"
         if (!checkSymb)
@@ -106,13 +106,20 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         if (!checkmatch)
             throw "Passwords do not Match"
 
-        const hashedPw = await bcrypt.hash(req.body.psw, 10)
-
-        temp_users.push({
+        try{
+            const hashedPw = await bcrypt.hash(req.body.psw, 10)
+            let User_insert = 'INSERT INTO UserCredentials(id,username,password) VALUES (?,?,?)';
+            db.run(User_insert,[Date.now(),req.body.uname,hashedPw],(err) => {
+                if(err) return console.error(err.message);
+        });
+        } catch (err) {
+            console.log(err)
+        }
+        /*temp_users.push({
             id: Date.now().toString(),//uuid,
             uname: req.body.uname,
             psw: hashedPw
-        })
+        })*/
         res.redirect('/login')
 
     } catch (err) {

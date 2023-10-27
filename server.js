@@ -97,20 +97,18 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         /*for (i = 0; i < temp_users.length; i++)
             if (temp_users[i].username === req.body.uname)
                 throw "Username already exists"*/
-            unique = true
-            sql = `SELECT username FROM UserCredentials;`
-            await new Promise((resolve,reject)=>{ db.all(sql,[],(err,rows)=>{
-                if (err) return reject(err)
-                resolve(
-                rows.forEach(row => {
-                    console.log(row.username)
-                    if(row.username == req.body.uname)
-                        unique = false
-                }))
-            })})
-            if(!unique){
-                throw "Username already exists"
-            }
+        unique = true
+        sql = `SELECT username FROM UserCredentials;`
+        await new Promise((resolve,reject)=>{ db.all(sql,[],(err,rows)=>{
+            if (err) return reject(err)
+            resolve(
+            rows.forEach(row => {
+                if(row.username == req.body.uname)
+                    unique = false
+            }))
+        })})
+        if(!unique)
+            throw "Username already exists"
         if (!checkLength)
             throw "Password length too short"
         if (!checkSymb)

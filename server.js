@@ -258,7 +258,43 @@ app.post('/quote',checkAuthenticated,(req, res) =>{
 })
 
 app.get('/history', checkAuthenticated, (req, res) => {
-    res.render('history.ejs', { fuel_quotes: req.user.fuel_quotes })
+    const sql = `SELECT * FROM FuelQuote WHERE user_id = ?`
+
+    new Promise((resolve,reject) => {
+        db.all(sql, [req.user.id], (err, rows) => {
+            if(err){
+                reject(err);
+            }
+            else {
+                resolve(rows)
+            }
+            
+        })
+
+    })
+    .then(rows =>{
+        let user_fuel_quotes = []
+        rows.forEach((row) => {
+            let fuel_quote_item = { requested_date: row.requested_date,
+                                gallons_requested: row.gallons_requested,
+                                address: row.address,
+                                city: row.city,
+                                state: row.state,
+                                delivery_date: row.delivery_date,
+                                BaseFuelCost: row.basefuelcost,
+                                service_fee: row.servicefee,
+                                total_price: row.totalprice }
+            //console.log(fuel_quote_item)
+            user_fuel_quotes.push(fuel_quote_item)
+        })
+        //console.log(user_fuel_quotes)
+        res.render('history.ejs', { fuel_quotes: user_fuel_quotes })
+    })
+    .catch(err => {
+        console.log(err.message)
+        res.render('history.ejs', { fuel_quotes: [] })
+    })
+
 })
 
 app.get('/profile', checkAuthenticated, (req, res) => {

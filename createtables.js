@@ -9,6 +9,7 @@ db.run("PRAGMA foreign_keys = ON;")
 
 //db.run("DROP TABLE UserCredentials");
 //db.run("DROP TABLE ClientInformation");
+//db.run("DROP TABLE FuelQuote");
 
 
 statement_usercreds = `CREATE TABLE UserCredentials
@@ -39,7 +40,7 @@ statement_fuelquote = `CREATE TABLE FuelQuote
                                 (quote_id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 user_id INTEGER REFERENCES UserCredentials(id),
                                 requested_date TIMESTAMP NOT NULL,
-                                gallons_requested NOT NULL,
+                                gallons_requested INTEGER NOT NULL,
                                 delivery_date DATE NOT NULL,
                                 address CHAR(200) NOT NULL,
                                 city CHAR(100) NOT NULL,
@@ -52,6 +53,8 @@ statement_fuelquote = `CREATE TABLE FuelQuote
 
 
 //db.run(statement_fuelquote);
+
+
 const hashedPw = '1qaz2wsx'
 const user_id = Date.now().toString()
 const uname = 'blaze'

@@ -62,10 +62,24 @@ app.use(methodOverride('_method')) //unused
 
 app.set('view-engine', 'ejs')
 
+
+sql = `SELECT * FROM UserCredentials`
+
 //routes for pages
 app.get('/', checkAuthenticated, (req, res) => {
     res.redirect('/profile')
 })
+db.all(sql,[],(err,rows)=>{
+    if (err) console.error(err.message)
+    
+        rows.forEach(row => {
+            if(!(temp_users.uname == row.username))
+            {
+                temp_users.push({
+                    id:String(row.id),
+                    uname:row.username,
+                    psw:row.password})
+            }})})
 
 app.get('/login', checkNotAuthenticated, async (req, res) => {
     sql = `SELECT * FROM UserCredentials`
@@ -83,7 +97,6 @@ app.get('/login', checkNotAuthenticated, async (req, res) => {
     })
     res.render('login.ejs')
 })
-
 app.post('/login', checkNotAuthenticated, passport.authenticate('local',
     {
         failureFlash: true,
@@ -365,7 +378,7 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         errorMessage.push("Please enter your full name")
     }
 
-    if (!profileValidator.CheckMaxLength(req.body.fullname, 50)) {
+    else if (!profileValidator.CheckMaxLength(req.body.fullname, 50)) {
         isValid = false
         errorMessage.push("Full name is too long")
     }
@@ -375,7 +388,7 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         errorMessage.push("Please enter an address")
     }
 
-    if (!profileValidator.CheckMaxLength(req.body.address1, 100)) {
+    else if (!profileValidator.CheckMaxLength(req.body.address1, 100)) {
         isValid = false
         errorMessage.push("Address1 is too long")
     }
@@ -390,7 +403,7 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         errorMessage.push("Please enter a city")
     }
 
-    if (!profileValidator.CheckMaxLength(req.body.city, 100)) {
+    else if (!profileValidator.CheckMaxLength(req.body.city, 100)) {
         isValid = false
         errorMessage.push("City name is too long")
     }
@@ -405,7 +418,7 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         errorMessage.push("Please enter a zipcode")
     }
 
-    if ((profileValidator.CheckMinLength(req.body.zipcode, 5)) || (!profileValidator.CheckMaxLength(req.body.zipcode, 9))) {
+    else if ((profileValidator.CheckMinLength(req.body.zipcode, 5)) || (!profileValidator.CheckMaxLength(req.body.zipcode, 9))) {
         isValid = false
         errorMessage.push("Zipcode length invalid")
     }
@@ -427,6 +440,8 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         }
 
         local_users = rows;
+        //console.log(rows)
+       // console.log(req.session.passport.user)
         let sql = "SELECT * FROM ClientInformation WHERE user_id = ?;"
 
         await db.all(sql, [req.session.passport.user], async function(err, rows) {
@@ -444,10 +459,10 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
             }
 
             let existing_user_info = rows;
-
             if (isValid === true) {
                 for (let i = 0; i < local_users.length; i++) {
                     if (local_users[i].id == req.session.passport.user) {
+                       // console.log("User was found!")
                         temp_users[i]["fullname"] = req.body.fullname
                         temp_users[i]["address1"] = req.body.address1
                         temp_users[i]["address2"] = req.body.address2
@@ -511,9 +526,7 @@ app.get('/savedProfile', checkAuthenticated, async (req, res) => {
             }))
             return console.log(err);
         }
-
         user_data = rows[0]
-
         render_data = {
             error_message: req.query.error_message,
             success_message: req.query.success_message,

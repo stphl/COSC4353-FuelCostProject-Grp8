@@ -395,7 +395,7 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
     let sql = "SELECT * FROM UserCredentials;";
     let local_users;
 
-    await db.all(sql,[],(err,rows)=>{
+    await db.all(sql,[], async function(err,rows) {
         if (err) {
             // Redirect to profile
             res.redirect(url.format({
@@ -409,64 +409,100 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         }
 
         local_users = rows;
+        let sql = "SELECT * FROM ClientInformation WHERE user_id = ?;"
 
-        if (isValid === true) {
-            for (let i = 0; i < local_users.length; i++) {
-                if (local_users[i].id == req.session.passport.user) {
-                    temp_users[i]["fullname"] = req.body.fullname
-                    temp_users[i]["address1"] = req.body.address1
-                    temp_users[i]["address2"] = req.body.address2
-                    temp_users[i]["city"] = req.body.city
-                    temp_users[i]["state"] = req.body.state
-                    temp_users[i]["zipcode"] = req.body.zipcode
-
-                    // Save info to the database
-                    const sql = 'INSERT INTO ClientInformation(user_id,fullname,address1,address2,city,state,zipcode) VALUES (?,?,?,?,?,?,?)';
-
-                    db.run(sql, [req.session.passport.user, req.body.fullname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zipcode],(err) => {
-                        if(err) return console.error(err.message);
-                    });
-                }
+        await db.all(sql, [req.session.passport.user], async function(err, rows) {
+            if (err) {
+                console.log("Error Reading ClientInformation table");
+                // Redirect to profile
+                res.redirect(url.format({
+                    pathname: "/profile",
+                    query: {
+                        "error_message": "Error reading data from database!",
+                        "success_message": ""
+                    }
+                }))
+                return console.log(err);
             }
-            // Redirect to profile
-            res.redirect(url.format({
-                pathname: "/savedProfile",
-                query: {
-                    "error_message": errorMessage.join(", "),
-                    "success_message": "Information saved successfully!"
-                }
-            }))
-        } else {
-            console.log("Entries are not valid! Form loaded again")
+
+            let existing_user_info = rows;
+
+            if (isValid === true) {
+                for (let i = 0; i < local_users.length; i++) {
+                    if (local_users[i].id == req.session.passport.user) {
+                        temp_users[i]["fullname"] = req.body.fullname
+                        temp_users[i]["address1"] = req.body.address1
+                        temp_users[i]["address2"] = req.body.address2
+                        temp_users[i]["city"] = req.body.city
+                        temp_users[i]["state"] = req.body.state
+                        temp_users[i]["zipcode"] = req.body.zipcode
     
+                        let sql = '';
+                        // Save info to the database
+                        if (existing_user_info.length == 0) {
+                            sql = "INSERT INTO ClientInformation(user_id,fullname,address1,address2,city,state,zipcode) VALUES (?,?,?,?,?,?,?)"
+                            db.run(sql, [req.session.passport.user, req.body.fullname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zipcode],(err) => {
+                                if(err) return console.error(err.message);
+                            });
+                        } else {
+                            sql = "UPDATE ClientInformation SET fullname = ?, address1 = ?, address2 = ?, city = ?, state = ?, zipcode = ? WHERE user_id = ?"
+                            db.run(sql, [req.body.fullname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zipcode, req.session.passport.user],(err) => {
+                                if(err) return console.error(err.message);
+                            });
+                        }
+                    }
+                }
+                // Redirect to profile
+                res.redirect(url.format({
+                    pathname: "/savedProfile",
+                    query: {
+                        "error_message": errorMessage.join(", "),
+                        "success_message": "Information saved successfully!"
+                    }
+                }))
+            } else {
+                console.log("Entries are not valid! Form loaded again")
+        
+                // Redirect to profile
+                res.redirect(url.format({
+                    pathname: "/profile",
+                    query: {
+                        "error_message": errorMessage.join(", "),
+                        "success_message": ""
+                    }
+                }))
+            }
+        });
+    })
+})
+
+app.get('/savedProfile', checkAuthenticated, async (req, res) => {
+    var user_data = null
+    let sql = "SELECT * FROM ClientInformation WHERE user_id = ?;"
+
+    await db.all(sql, [req.session.passport.user], async function(err, rows) {
+        if (err) {
+            console.log("Error Reading ClientInformation table");
             // Redirect to profile
             res.redirect(url.format({
                 pathname: "/profile",
                 query: {
-                    "error_message": errorMessage.join(", "),
+                    "error_message": "Error reading data from database!",
                     "success_message": ""
                 }
             }))
+            return console.log(err);
         }
-    })
-})
 
-app.get('/savedProfile', checkAuthenticated, (req, res) => {
-    var user_data = null
+        user_data = rows[0]
 
-    for (let i = 0; i < temp_users.length; i++) {
-        if (temp_users[i].id == req.session.passport.user) {
-            user_data = temp_users[i]
+        render_data = {
+            error_message: req.query.error_message,
+            success_message: req.query.success_message,
+            user_data: user_data
         }
-    }
-
-    render_data = {
-        error_message: req.query.error_message,
-        success_message: req.query.success_message,
-        user_data: user_data
-    }
-
-    res.render('savedProfile.ejs', render_data)
+        res.render('savedProfile.ejs', render_data)
+    });
 })
 
 //authentication functions

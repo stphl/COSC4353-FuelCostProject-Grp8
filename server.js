@@ -164,10 +164,7 @@ app.get('/quote', checkAuthenticated, async (req, res) => {
         resolve(
         rows.forEach(row => {
             if(req.session.passport.user == row.user_id)
-            {
-                console.log("found it")
                 user_data = row
-            }
         }))
     })})
     /*for (let i = 0; i < temp_users.length; i++) {
@@ -211,10 +208,7 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
         resolve(
         rows.forEach(row => {
             if(req.session.passport.user == row.user_id)
-            {
-                console.log("found it")
                 user_data = row
-            }
         }))
     })})
 

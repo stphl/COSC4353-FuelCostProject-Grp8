@@ -31,7 +31,7 @@ statement_client_info = `CREATE TABLE ClientInformation (
                             address1 CHAR(100) NOT NULL,
                             address2 CHAR(100),
                             city CHAR(100) NOT NULL,
-                            state_id char(100) REFERENCES states(state),
+                            state char(2) NOT NULL,
                             zipcode INTEGER NOT NULL
                             )`;
 //db.run(statement_client_info);

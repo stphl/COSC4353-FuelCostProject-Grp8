@@ -297,12 +297,44 @@ app.get('/history', checkAuthenticated, (req, res) => {
 
 })
 
-app.get('/profile', checkAuthenticated, (req, res) => {
-    render_data = {
-        error_message: req.query.error_message,
-        success_message: req.query.success_message
-    }
-    res.render('profile.ejs', render_data)
+app.get('/profile', checkAuthenticated, async (req, res) => {
+    let states = [];
+    const sql = `SELECT * FROM states`
+
+    new Promise((resolve,reject) => {
+        db.all(sql, [], (err, rows) => {
+            if(err) {
+                reject(err);
+            }
+            else {
+                resolve(rows)
+            }
+        })
+    })
+    .then(rows =>{
+        let states = []
+        rows.forEach((row) => {
+            let state = {   state: row.state,
+                            abbreviation: row.abbreviation
+                        }
+            states.push(state)
+        })
+        render_data = {
+            error_message: req.query.error_message,
+            success_message: req.query.success_message,
+            states: states
+        }
+        res.render('profile.ejs', render_data)
+    })
+    .catch(err => {
+        console.log(err.message)
+        render_data = {
+            error_message: req.query.error_message,
+            success_message: req.query.success_message,
+            states: states
+        }
+        res.render('profile.ejs', render_data)
+    })
 })
 
 app.post('/profile', checkAuthenticated, async (req, res) => {
@@ -360,40 +392,63 @@ app.post('/profile', checkAuthenticated, async (req, res) => {
         errorMessage.push("Zipcode length invalid")
     }
 
-    if (isValid === true) {
-        for (let i = 0; i < temp_users.length; i++) {
-            if (temp_users[i].id == req.session.passport.user) {
-                temp_users[i]["fullname"] = req.body.fullname
-                temp_users[i]["address1"] = req.body.address1
-                temp_users[i]["address2"] = req.body.address2
-                temp_users[i]["city"] = req.body.city
-                temp_users[i]["state"] = req.body.state
-                temp_users[i]["zipcode"] = req.body.zipcode
-            }
-        }
-        // Redirect to profile
-        res.redirect(url.format({
-            pathname: "/savedProfile",
-            query: {
-                "error_message": errorMessage.join(", "),
-                "success_message": "Information saved successfully!"
-            }
-        }))
-    } else {
-        console.log("Entries are not valid! Form loaded again")
+    let sql = "SELECT * FROM UserCredentials;";
+    let local_users;
 
-        // Redirect to profile
-        res.redirect(url.format({
-            pathname: "/profile",
-            query: {
-                "error_message": errorMessage.join(", "),
-                "success_message": ""
+    await db.all(sql,[],(err,rows)=>{
+        if (err) {
+            // Redirect to profile
+            res.redirect(url.format({
+                pathname: "/profile",
+                query: {
+                    "error_message": "Error reading data from database!",
+                    "success_message": ""
+                }
+            }))
+            return console.log(err);
+        }
+
+        local_users = rows;
+
+        if (isValid === true) {
+            for (let i = 0; i < local_users.length; i++) {
+                if (local_users[i].id == req.session.passport.user) {
+                    temp_users[i]["fullname"] = req.body.fullname
+                    temp_users[i]["address1"] = req.body.address1
+                    temp_users[i]["address2"] = req.body.address2
+                    temp_users[i]["city"] = req.body.city
+                    temp_users[i]["state"] = req.body.state
+                    temp_users[i]["zipcode"] = req.body.zipcode
+
+                    // Save info to the database
+                    const sql = 'INSERT INTO ClientInformation(user_id,fullname,address1,address2,city,state,zipcode) VALUES (?,?,?,?,?,?,?)';
+
+                    db.run(sql, [req.session.passport.user, req.body.fullname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.zipcode],(err) => {
+                        if(err) return console.error(err.message);
+                    });
+                }
             }
-        }))
-    }
-    //console.log(req.session.passport.user)
-    //console.log(req.body)
-    //console.log(temp_users)
+            // Redirect to profile
+            res.redirect(url.format({
+                pathname: "/savedProfile",
+                query: {
+                    "error_message": errorMessage.join(", "),
+                    "success_message": "Information saved successfully!"
+                }
+            }))
+        } else {
+            console.log("Entries are not valid! Form loaded again")
+    
+            // Redirect to profile
+            res.redirect(url.format({
+                pathname: "/profile",
+                query: {
+                    "error_message": errorMessage.join(", "),
+                    "success_message": ""
+                }
+            }))
+        }
+    })
 })
 
 app.get('/savedProfile', checkAuthenticated, (req, res) => {

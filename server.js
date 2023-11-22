@@ -192,7 +192,15 @@ app.get('/quote', checkAuthenticated, async (req, res) => {
         error_message: req.session.errorMessage
     }
 
-    res.render('quote.ejs', render_data)
+    if(user_data != null)
+    {
+        res.render('quote.ejs', render_data)
+    }
+    else
+    {
+        res.redirect('/profile')
+    }
+
     // var previousInputs = req.session.previousInputs || {};
     // req.session.previousInputs = {};
     // res.render('quote.ejs', { request_data: previousInputs })
@@ -203,6 +211,7 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
     var error_message = []
 
     if(req.user.fuel_quotes == undefined){req.user.fuel_quotes = []}
+    req.user.fuel_quotes = []
     // let address = req.body.address
     // let city = req.body.city
     // let state = req.body.state
@@ -225,12 +234,27 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
         }))
     })})
 
+
+
     let address = user_data["address1"] + " " + user_data["address2"]
     let city = user_data["city"]
     let state = user_data["state"]
     let zipcode = user_data["zipcode"]
     let delivery_date = req.body.delivery_date
     let gallons_requested = Number(req.body.gallons_requested)
+
+
+    const sql_q = `SELECT * FROM FuelQuote WHERE user_id = ?`
+    await new Promise((resolve,reject) => {
+        db.all(sql_q, [req.session.passport.user], (err, rows) => {
+            if (err) return reject(err)
+        resolve(
+        rows.forEach(row => {
+                req.user.fuel_quotes.push(row)
+        }))
+    })})
+
+    
 
     let validiation_date = new Date(req.body.delivery_date)
     if (isNaN(validiation_date.getTime()))
@@ -260,11 +284,16 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
             service_fee: fuel_quote.service_fee,
             total_price: fuel_quote.total_price
         }
-        const sql = `INSERT INTO FuelQuote (quote_id, user_id, requested_date, gallons_requested, delivery_date, address, city, state, zipcode, basefuelcost, servicefee, totalprice)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
 
-        db.run(sql, [fuel_quote.quote_id, fuel_quote.user_id, fuel_quote.requested_date.toISOString(), fuel_quote.gallons_requested, fuel_quote.delivery_date, fuel_quote.address, fuel_quote.city, fuel_quote.state, fuel_quote.zipcode,
-             fuel_quote.BaseFuelCost, fuel_quote.service_fee, fuel_quote.total_price])
+        if(req.body.button == "submit_form")
+        {
+            const sql = `INSERT INTO FuelQuote (quote_id, user_id, requested_date, gallons_requested, delivery_date, address, city, state, zipcode, basefuelcost, servicefee, totalprice)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+
+            db.run(sql, [fuel_quote.quote_id, fuel_quote.user_id, fuel_quote.requested_date.toISOString(), fuel_quote.gallons_requested, fuel_quote.delivery_date, fuel_quote.address, fuel_quote.city, fuel_quote.state, fuel_quote.zipcode,
+                fuel_quote.BaseFuelCost, fuel_quote.service_fee, fuel_quote.total_price])
+        }
+
         
 
         error_message = ""

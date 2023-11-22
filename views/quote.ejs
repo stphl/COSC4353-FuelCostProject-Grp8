@@ -63,7 +63,9 @@
         <label for="date">Delivery date:</label>
         <input type="date" id="delivery_date" name="delivery_date" min="<%= new Date().toISOString().split('T')[0] %>" value="<%- typeof request_data !== 'undefined' ? request_data.delivery_date : '' %>" required>
 
-        <button type="submit" onsubmit="">Get Quote</button>
+        <button type="submit" name = "button" value = "get_quote" onsubmit="">Get Quote</button>
+        
+        <button type="submit" name = "button" value = "submit_form" onsubmit="">Submit Form</button>
 
         <p id="base-fuel-cost"><span class="span-saved-profile">Base Fuel Cost: </span><%= typeof request_data !== 'undefined' ? request_data.base_fuel_cost : '' %> </h1>
         <p id="service-fee"><span class="span-saved-profile">Service Fee: </span><%= typeof request_data !== 'undefined' ? (request_data.service_fee * 100).toFixed(0) : '' %>%</h1>

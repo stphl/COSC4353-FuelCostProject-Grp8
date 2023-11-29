@@ -1,5 +1,5 @@
 // This is our internal price per gallon rate without any service fee
-const BaseFuelCostPerGallon = 2
+const BaseFuelCostPerGallon = 1.5
 
 class FuelQuote
 {
@@ -36,33 +36,33 @@ class FuelQuote
     calcTotalPrice(customer_fuel_quotes)
     {
         this.BaseFuelCost = BaseFuelCostPerGallon * this.gallons_requested
-        // assignment1.docx listed this variable as the profit_margin but I renamed it to service_fee
-        this.service_fee = 0.15
+        // Starting the service fee to be 0.1 percent, which represents 10% company profit.
+        this.service_fee = 0.1
 
         // out of state users will recieve an increased service fee
         if (this.state != "TX")
         {
-            this.service_fee += 0.03
+            this.service_fee += 0.02
+        }
+        else
+        {
+            this.service_fee += 0.04
         }
 
         // if customer_fuel_quotes >= 1 then this is a returning customer and they get a lower service fee
         if(customer_fuel_quotes.length >= 1)
         {
-            this.service_fee -= 0.03
+            this.service_fee -= 0.01
         }
 
         // if number of gallons requested reach a certain threshold lower the service_fee
         if (this.gallons_requested >= 1000)
         {
-            this.service_fee -= 0.05
+            this.service_fee += 0.02
         }
-        else if(this.gallons_requested >= 500)
+        else
         {
-            this.service_fee -= 0.03
-        }
-        else if(this.gallons_requested >= 100)
-        {
-            this.service_fee -= 0.01
+            this.service_fee += 0.03
         }
 
         this.total_price = this.BaseFuelCost + (this.BaseFuelCost * this.service_fee)

@@ -65,7 +65,7 @@ class FuelQuote
             this.service_fee += 0.03
         }
 
-        this.total_price = this.BaseFuelCost + (this.BaseFuelCost * this.service_fee)
+        this.total_price = (this.BaseFuelCost * this.service_fee)
         this.service_fee = parseFloat(this.service_fee.toFixed(2))
     }
 

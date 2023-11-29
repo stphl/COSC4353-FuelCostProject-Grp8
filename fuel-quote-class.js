@@ -35,7 +35,6 @@ class FuelQuote
     
     calcTotalPrice(customer_fuel_quotes)
     {
-        this.BaseFuelCost = BaseFuelCostPerGallon * this.gallons_requested
         // Starting the service fee to be 0.1 percent, which represents 10% company profit.
         this.service_fee = 0.1
 
@@ -65,7 +64,7 @@ class FuelQuote
             this.service_fee += 0.03
         }
 
-        this.total_price = (this.BaseFuelCost * this.service_fee)
+        this.total_price = (this.BaseFuelCost + (this.BaseFuelCost * this.service_fee)) * this.gallons_requested
         this.service_fee = parseFloat(this.service_fee.toFixed(2))
     }
 

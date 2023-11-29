@@ -35,11 +35,12 @@ class FuelQuote
     
     calcTotalPrice(customer_fuel_quotes)
     {
+        this.BaseFuelCost = BaseFuelCostPerGallon
         // Starting the service fee to be 0.1 percent, which represents 10% company profit.
         this.service_fee = 0.1
 
         // out of state users will recieve an increased service fee
-        if (this.state != "TX")
+        if (this.state === "TX")
         {
             this.service_fee += 0.02
         }
@@ -63,9 +64,10 @@ class FuelQuote
         {
             this.service_fee += 0.03
         }
-
-        this.total_price = (this.BaseFuelCost + (this.BaseFuelCost * this.service_fee)) * this.gallons_requested
-        this.service_fee = parseFloat(this.service_fee.toFixed(2))
+        
+        this.BaseFuelCost = this.BaseFuelCost + (this.BaseFuelCost * this.service_fee)
+        this.total_price =  this.gallons_requested * this.BaseFuelCost
+        
     }
 
 

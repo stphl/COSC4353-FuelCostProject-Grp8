@@ -100,7 +100,7 @@ app.get('/login', checkNotAuthenticated, async (req, res) => {
 app.post('/login', checkNotAuthenticated, passport.authenticate('local',
     {
         failureFlash: true,
-        successRedirect: '/profile',
+        successRedirect: '/quote',
         failureRedirect: '/login',
     }))
 

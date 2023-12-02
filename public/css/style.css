@@ -1,6 +1,9 @@
 body {
     font-family: Arial, Helvetica, sans-serif; 
-    background-color: #f1f1f1;
+    background: url("../images/subtle-prism.svg") no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 form {
@@ -19,7 +22,19 @@ input[type=text], input[type=password], input[type=date], input[type=number], se
 
 .headingText {
     padding-top: 50px;
+    font-size: 40px;
     text-align: center;
+    background-color: #e8e6e6;
+    background-blend-mode: color-burn;
+    color: black; 
+    display: inline-block; 
+    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-shadow: 2px 2px 5px rgb(142, 133, 133);
+    border-radius: 10px;
+    border-width: 3px;
+    border-style: groove;
 }
 
 button {
@@ -56,6 +71,7 @@ th, td {
 
 .checks {
     color: red;
+    font-weight: bold;
 }
 
 .alert{
@@ -110,7 +126,7 @@ th, td {
 }
 
 .top-nav {	
-    background-color: rgb(46, 46, 46);	
+    background-color: #4F5B79;	
     overflow: hidden;	
 }
 
@@ -167,17 +183,30 @@ th, td {
 table {
     align-content: center;
     width: 100%;
+    table-layout: auto;
     border-spacing:0;
     border-collapse: collapse;
+    background-color: #ffffff;
 }
 
 th, td {
-    border: 1px solid black;
+    border: 1.2px solid black;
+    padding: 10px;
 }
 
-th { text-align: center; }
+th { 
+    text-align: center;
+    background-color: #4F5B79;
+    color: white;
+}
 
-td { text-align: left; }
+td { 
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
 span.span-saved-profile {
     font-weight: bold;

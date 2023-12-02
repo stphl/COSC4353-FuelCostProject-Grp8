@@ -29,9 +29,12 @@
       <li><a href="/quote"><strong>Calculate Fuel Quote</strong></a></li>
       <li><a href="/history"><strong>Fuel Quote History</strong></a></li>
       <li><a href="/savedProfile"><strong>Profile</strong></a></li>
+      <li><a href="/logout"><strong>Log Out</strong></a></li>
     </ul>
   </div>
+  <div class="center-text"> 
   <h1 class="headingText">Fuel Quote</h1>
+  </div>
   <div class="MainContainer">
     
     
@@ -65,13 +68,11 @@
 
         <button type="submit" name = "button" value = "get_quote" onsubmit="">Get Quote</button>
         
-        <button type="submit" name = "button" value = "submit_form" onsubmit="">Submit Form</button>
-
         <p id="base-fuel-cost"><span class="span-saved-profile">Price Per Gallon: </span><%= typeof request_data !== 'undefined' ? request_data.base_fuel_cost : '' %> </h1>
         <p id="service-fee"><span class="span-saved-profile">Service Fee: </span><%= typeof request_data !== 'undefined' ? (request_data.service_fee * 100).toFixed(0) : '' %>%</h1>
         <p id="fuel-quote"><span class="span-saved-profile">Fuel Quote: </span><%= typeof request_data !== 'undefined' ? request_data.total_price : '' %> </h1>
         
-
+        <button type="submit" name = "button" value = "submit_form" onsubmit="">Submit Form</button>
       
       </div>
     </form>

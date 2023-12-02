@@ -559,13 +559,17 @@ app.get('/savedProfile', checkAuthenticated, async (req, res) => {
             }))
             return console.log(err);
         }
-        user_data = rows[0]
-        render_data = {
-            error_message: req.query.error_message,
-            success_message: req.query.success_message,
-            user_data: user_data
+        if (rows.length > 0) {
+            user_data = rows[0]
+            render_data = {
+                error_message: req.query.error_message,
+                success_message: req.query.success_message,
+                user_data: user_data
+            }
+            res.render('savedProfile.ejs', render_data)    
+        } else {
+            res.redirect("/profile")
         }
-        res.render('savedProfile.ejs', render_data)
     });
 })
 

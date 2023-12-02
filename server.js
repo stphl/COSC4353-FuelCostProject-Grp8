@@ -67,7 +67,7 @@ sql = `SELECT * FROM UserCredentials`
 
 //routes for pages
 app.get('/', checkAuthenticated, (req, res) => {
-    res.redirect('/profile')
+    res.redirect('/savedProfile')
 })
 db.all(sql,[],(err,rows)=>{
     if (err) console.error(err.message)
@@ -107,6 +107,14 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local',
 app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
 })
+
+app.get('/logout', async (req, res, next) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        temp_users.pop();
+        res.redirect('/login');
+    });
+});
 
 const RegValidation = require('./RegValidation')
 
@@ -234,8 +242,6 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
         }))
     })})
 
-
-
     let address = user_data["address1"] + " " + user_data["address2"]
     let city = user_data["city"]
     let state = user_data["state"]
@@ -255,7 +261,6 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
     })})
 
     
-
     let validiation_date = new Date(req.body.delivery_date)
     if (isNaN(validiation_date.getTime()))
     {
@@ -292,10 +297,8 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
 
             db.run(sql, [fuel_quote.quote_id, fuel_quote.user_id, fuel_quote.requested_date.toISOString(), fuel_quote.gallons_requested, fuel_quote.delivery_date, fuel_quote.address, fuel_quote.city, fuel_quote.state, fuel_quote.zipcode,
                 fuel_quote.BaseFuelCost, fuel_quote.service_fee, fuel_quote.total_price])
+
         }
-
-        
-
         error_message = ""
     }
     else
@@ -310,11 +313,14 @@ app.post('/quote',checkAuthenticated, async (req, res) =>{
         error_message = error_message.join(", ")
     }
 
-
-    
     req.session.previousInputs = request_data
     req.session.errorMessage = error_message
-    res.redirect('/quote')
+    if(req.body.button == "submit_form")
+    {
+        res.redirect('/history')
+    } else {
+        res.redirect('/quote')
+    }    
 })
 
 app.get('/history', checkAuthenticated, (req, res) => {
@@ -328,9 +334,7 @@ app.get('/history', checkAuthenticated, (req, res) => {
             else {
                 resolve(rows)
             }
-            
         })
-
     })
     .then(rows =>{
         let user_fuel_quotes = []

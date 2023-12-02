@@ -154,7 +154,7 @@ describe("login posts",()=>{
         server.post('/login').type('form')
         .send(existing_user)
         .expect(302)
-        .expect("Location","/profile")
+        .expect("Location","/quote")
         .end((err,res)=>{
             if (err) return done(err);
             done();
